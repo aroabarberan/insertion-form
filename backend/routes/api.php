@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,25 +19,18 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['prefix'=>'/'], function () {
-    Route::get('/images', function () {
+    Route::get('/data', function () {
         return Image::all();
     });
 
-    Route::get('/images/{id}', function ($id) {
-        return Image::find($id);
+    Route::post('/data', function(Request $request) {
+        $data = new Image;
+        $data->name = $request['name'];
+        $data->extension = $request['extension'];
+        $data->size = $request['size'];
+        $data->path = $request['path'];
+        $data->save();
     });
 
-    Route::post('/images', function(Request $request) {
-        $images = new Image;
-        $images->name = $request['name'];
-        $images->extension = $request['extension'];
-        $images->size = $request['size'];
-        $images->path = $request['path'];
-        $images->save();
-    });
 
-    Route::delete('/images/{id}', function($id) {
-        Image::find($id)->delete();
-        return 204;
-    });
 });
