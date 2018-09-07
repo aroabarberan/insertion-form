@@ -2,13 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import immutable from "redux-immutable-state-invariant"
 import { composeWithDevTools } from "redux-devtools-extension"
 import { logger } from "redux-logger"
-// import  from './reducers/'
-
+import data from "./reducers/DataReducer";
 
 
 export default createStore(
   combineReducers({ 
-    // rootReducer
+    data
   }),
   composeWithDevTools(applyMiddleware(logger, immutable()))
 )

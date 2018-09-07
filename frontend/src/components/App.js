@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Form from "../containers/Form";
 
 class App extends Component {
   render() {
     return (
       <div>
-        tururu
+        <Form />
       </div>
     );
   }
