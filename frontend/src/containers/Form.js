@@ -15,7 +15,6 @@ class Form extends React.Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount', this.props.data)
     fetch('http://localhost:8000/api/data')
       .then(res => res.json())
       .then(data => data.map(data => this.props.insertData(data)))
@@ -33,10 +32,12 @@ class Form extends React.Component {
   };
 
   submit(evt) {
+    console.log(this.props.path)
     evt.preventDefault();
     const { name, extension, size } = this.props
     let path = this.props.path
-    path = "images/" + path.replace("C:\\fakepath\\", '')
+    
+    // path = "images/" + path.replace("C:\\fakepath\\", '')
 
     fetch('http://127.0.0.1:8000/api/data', {
       method: "POST",
@@ -54,18 +55,10 @@ class Form extends React.Component {
     return (
       <div>
         <h2>Form</h2>
-        <form onSubmit={this.submit}>
+        <form onSubmit={this.submit} enctype="multipart/form-data">
           <div>
             <label>Name</label>
             <input type="text" name='name' onChange={this.handleChange} />
-          </div>
-          <div>
-            <label>Extension</label>
-            <input type="text" name='extension' onChange={this.handleChange} />
-          </div>
-          <div>
-            <label>Size</label>
-            <input type="text" name='size' onChange={this.handleChange} />
           </div>
           <div>
             <label>Path</label>
