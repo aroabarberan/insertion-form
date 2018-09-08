@@ -29,7 +29,14 @@ Route::group(['prefix'=>'/'], function () {
         $data->extension = $request['extension'];
         $data->size = $request['size'];
         $data->path = $request['path'];
-        $data->save();
+
+        return response()->json($request['path']);
+
+        // echo "El nombre temporal es ".$_FILES['imagen']['tmp_name']."<br>";
+        // echo "El tamaño es ".$_FILES['imagen']['size']."<br>";
+        // echo "El nombre original es ".$_FILES['imagen']['name']."<br>";
+        // echo "El tipo de archivo es ".$_FILES['imagen']['type']."<br>"; 
+        // $data->save();
     });
 
 
