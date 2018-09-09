@@ -5,7 +5,7 @@ const initialState = {
       name: 'linux',
       extension: 'png',
       size: '22',
-      path: 'images/linux.png',
+      path: 'linux.png',
     },
   ],
   form: {

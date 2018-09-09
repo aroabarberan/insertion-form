@@ -24,20 +24,18 @@ Route::group(['prefix'=>'/'], function () {
     });
 
     Route::post('/data', function(Request $request) {
-        $data = new Image;
-        $data->name = $request['name'];
-        $data->extension = $request['extension'];
-        $data->size = $request['size'];
-        $data->path = $request['path'];
+        // $data = new Image();
+        // $data->name = $request['name'];
+        // $data->extension = 'png';
+        // $data->size = '23';
+        // $data->path = pathinfo($request['path'])['basename'];
 
-        return response()->json($request['path']);
+        // $data->path = '/home/aroa/Documents/insertion-form/frontend/public/images/';
+        // $info = pathinfo($_FILES[$request['path']]['name']);
+        // $name = basename($_FILES[$request['path']]["name"]);
 
-        // echo "El nombre temporal es ".$_FILES['imagen']['tmp_name']."<br>";
-        // echo "El tamaño es ".$_FILES['imagen']['size']."<br>";
-        // echo "El nombre original es ".$_FILES['imagen']['name']."<br>";
-        // echo "El tipo de archivo es ".$_FILES['imagen']['type']."<br>"; 
+        // move_uploaded_file($data->path, 
+        // '../../frontend/public/images/'. $data->path);
         // $data->save();
     });
-
-
 });

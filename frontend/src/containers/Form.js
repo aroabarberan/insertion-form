@@ -32,12 +32,14 @@ class Form extends React.Component {
   };
 
   submit(evt) {
-    console.log(this.props.path)
     evt.preventDefault();
-    const { name, extension, size } = this.props
+    const { name } = this.props
     let path = this.props.path
-    
-    // path = "images/" + path.replace("C:\\fakepath\\", '')
+
+    path = path.replace("C:\\fakepath\\", '')
+
+    const fd = new FormData();
+    fd.append('images/', path);
 
     fetch('http://127.0.0.1:8000/api/data', {
       method: "POST",
@@ -45,17 +47,17 @@ class Form extends React.Component {
         'Accept': 'application/json',
         'Content-type': 'application/json',
       },
-      body: JSON.stringify({ name, extension, size, path }),
+      body: JSON.stringify({ name, path }),
     })
-    this.props.insertData({ name, extension, size, path })
-    this.props.updateInfoForm({ name: '', extension: '', size: '', path: '' })
+    this.props.insertData({ name, path })
+    this.props.updateInfoForm({ name: '', path: '' })
   }
 
   render() {
     return (
       <div>
         <h2>Form</h2>
-        <form onSubmit={this.submit} enctype="multipart/form-data">
+        <form onSubmit={this.submit} method="POST" encType="multipart/form-data">
           <div>
             <label>Name</label>
             <input type="text" name='name' onChange={this.handleChange} />
@@ -64,7 +66,7 @@ class Form extends React.Component {
             <label>Path</label>
             <input type="file" name='path' onChange={this.handleChange} />
           </div>
-          <button>Send</button>
+          <input type="submit" value="send" />
         </form>
 
         <table border='2'>
@@ -76,11 +78,11 @@ class Form extends React.Component {
           </tr>
 
           {this.props.data.data.map((d, i) =>
-            <tr>
+            <tr key={i}>
               <td>{d.name}</td>
               <td>{d.extension}</td>
               <td>{d.size}</td>
-              <td><img src={d.path} alt="" style={{ with: 100, height: 100 }} /></td>
+              <td><img src={'images/' + d.path} alt="" style={{ with: 10, height: 10 }} /></td>
             </tr>
           )}
         </table>
@@ -92,8 +94,6 @@ class Form extends React.Component {
 const mapStateToProps = state => ({
   data: state.data,
   name: state.data.form.create.name,
-  extension: state.data.form.create.extension,
-  size: state.data.form.create.size,
   path: state.data.form.create.path,
   form: state.data.form
 })
