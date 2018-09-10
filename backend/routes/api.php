@@ -24,18 +24,20 @@ Route::group(['prefix'=>'/'], function () {
     });
 
     Route::post('/data', function(Request $request) {
-        // $data = new Image();
-        // $data->name = $request['name'];
-        // $data->extension = 'png';
-        // $data->size = '23';
+        $data = new Image();
+        $data->name = $request['name'];
+        $data->extension = 'png';
+        $data->size = '23';
+        $data->path = $request['path'];
+    
         // $data->path = pathinfo($request['path'])['basename'];
 
-        // $data->path = '/home/aroa/Documents/insertion-form/frontend/public/images/';
+        // $data->path = '/home/xxx/Documents/insertion-form/frontend/public/images/';
         // $info = pathinfo($_FILES[$request['path']]['name']);
         // $name = basename($_FILES[$request['path']]["name"]);
 
         // move_uploaded_file($data->path, 
         // '../../frontend/public/images/'. $data->path);
-        // $data->save();
+        $data->save();
     });
 });
