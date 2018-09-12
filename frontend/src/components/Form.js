@@ -1,15 +1,10 @@
-import React from "react";
-import { connect } from "react-redux";
-import {
-	insertData,
-	updateInfoForm,
-	clearForm
-} from "../actions/DataActions";
+import React from "react"
 
-class Form extends React.Component {
-	constructor() {
-		super()
+export default class Form extends React.Component {
+	constructor(props) {
+		super(props)
 		this.handleChange = this.handleChange.bind(this)
+		this.handleChangePath = this.handleChangePath.bind(this)
 		this.submit = this.submit.bind(this)
 
 	}
@@ -23,22 +18,25 @@ class Form extends React.Component {
 
 	handleChange(evt) {
 		this.props.updateInfoForm({
-			name: evt.target.name == 'name' ? evt.target.value : '',
-			path: evt.target.name == 'path' ? evt.target.files[0] : '',
+			name: this.props.name,
+			path: this.props.path,
 			[evt.target.name]: evt.target.value
 		})
+	}
 
-		// console.log(evt.target.files[0])
-		// if (evt.target.name == 'path') {
-		// 	console.log('File', evt.target.files[0])
-		// } else {
-		// 	console.log('Bueeeeenooooooooooooooooooo!!!')
-		// }
-	};
+	handleChangePath(evt) {
+		this.props.updateInfoForm({
+			name: this.props.name,
+			path: this.props.path,
+			[evt.target.name]: evt.target.files[0].name
+		})
+		console.log(evt.target.files[0])
+	}
 
 	submit(evt) {
 		evt.preventDefault();
 		const { name, path } = this.props
+		const extension = path.split(".")[1]
 
 		fetch('http://127.0.0.1:8000/api/data', {
 			method: "POST",
@@ -46,13 +44,14 @@ class Form extends React.Component {
 				'Accept': 'application/json',
 				'Content-type': 'application/json',
 			},
-			body: JSON.stringify({ name, path }),
+			body: JSON.stringify({ name, extension, path }),
 		})
-		this.props.insertData({ name, path })
+		this.props.insertData({ name, extension, path })
 		this.props.updateInfoForm({ name: '', path: '' })
 	}
 
 	render() {
+		console.log('props', this.props)
 		return (
 			<div>
 				<h2>Form</h2>
@@ -63,7 +62,7 @@ class Form extends React.Component {
 					</div>
 					<div>
 						<label>Path</label>
-						<input type="file" name='path' onChange={this.handleChange} />
+						<input type="file" name='path' onChange={this.handleChangePath} />
 					</div>
 					<input type="submit" value="send" />
 				</form>
@@ -73,7 +72,6 @@ class Form extends React.Component {
 						<tr>
 							<th>Name</th>
 							<th>Extension</th>
-							<th>Size</th>
 							<th>Path</th>
 						</tr>
 
@@ -81,7 +79,6 @@ class Form extends React.Component {
 							<tr key={i}>
 								<td>{d.name}</td>
 								<td>{d.extension}</td>
-								<td>{d.size}</td>
 								<td><img src={'images/' + d.path} alt="" style={{ with: 10, height: 10 }} /></td>
 							</tr>
 						)}
@@ -92,23 +89,3 @@ class Form extends React.Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	data: state.data,
-	name: state.data.form.create.name,
-	path: state.data.form.create.path,
-	form: state.data.form
-})
-
-const mapDispatchToProps = dispatch => ({
-	insertData: data => {
-		dispatch(insertData(data))
-	},
-	updateInfoForm: dataInfo => {
-		dispatch(updateInfoForm(dataInfo))
-	},
-	clearForm: () => {
-		dispatch(clearForm())
-	},
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form)

@@ -4,15 +4,12 @@ const initialState = {
     {
       name: 'linux',
       extension: 'png',
-      size: '22',
       path: 'linux.png',
     },
   ],
   form: {
     create: {
       name: '',
-      extension: '',
-      size: '',
       path: '',
     }
   },
