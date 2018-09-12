@@ -26,18 +26,12 @@ Route::group(['prefix'=>'/'], function () {
     Route::post('/data', function(Request $request) {
         $data = new Image();
         $data->name = $request['name'];
-        $data->extension = 'png';
-        $data->size = '23';
+        // $data->extension = explode('.', $request['path'])[1];
+        $data->extension = $request['extension'];
         $data->path = $request['path'];
-    
-        // $data->path = pathinfo($request['path'])['basename'];
 
-        // $data->path = '/home/xxx/Documents/insertion-form/frontend/public/images/';
-        // $info = pathinfo($_FILES[$request['path']]['name']);
-        // $name = basename($_FILES[$request['path']]["name"]);
-
-        // move_uploaded_file($data->path, 
-        // '../../frontend/public/images/'. $data->path);
+        move_uploaded_file($request['path'], 
+        '../../frontend/public/images/'. $request['path']);
         $data->save();
     });
 });
