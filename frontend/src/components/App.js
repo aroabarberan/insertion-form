@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import FormContainers from "../containers/FormContainers";
+import FileUploadContainers from '../containers/FileUploadContainers';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <FormContainers />
+          <FileUploadContainers/>      
       </div>
     );
   }
