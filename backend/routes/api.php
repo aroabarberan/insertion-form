@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Image;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,25 +13,8 @@ use App\Image;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
-Route::group(['prefix'=>'/'], function () {
-    Route::get('/data', function () {
-        return Image::all();
-    });
-
-    Route::post('/data', function(Request $request) {
-        
-        // $data = new Image();
-        // $data->name = $request['name'];
-        // $data->extension = $request['extension'];
-        // // $data->path = $request['path'];
-        // // $data->path = $request->path->store('images');
-        $request->file($request['path'])->store('images');
-        echo $request['path'];
-        // $data->save();
-
-    });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
+
+Route::resource('fileupload', 'FileuploadController');

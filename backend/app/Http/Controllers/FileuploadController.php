@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Image;
 use Illuminate\Http\Request;
+use App\Fileupload;
 
-class ImageController extends Controller
+class FileuploadController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ImageController extends Controller
      */
     public function index()
     {
-        //
+        return Fileupload::all();
     }
 
     /**
@@ -35,16 +35,30 @@ class ImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->get('file'))
+       {
+          $image = $request->get('file');
+          $position = strpos($image, ';');
+          $name = time().'.' . explode('/', explode(':', substr($image, 0, $position))[1])[1];
+          \Image::make($request->get('file'))->save(public_path('images/').$name);
+        }
+
+        $fileupload = new Fileupload();
+        $fileupload->name = $request->get('name');
+        $fileupload->extension = 'png';
+        $fileupload->filename=$name;
+        $fileupload->save();
+        return response()->json('Successfully added');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Image  $image
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Image $image)
+    public function show($id)
     {
         //
     }
@@ -52,10 +66,10 @@ class ImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Image  $image
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Image $image)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +78,10 @@ class ImageController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Image  $image
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Image $image)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +89,10 @@ class ImageController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Image  $image
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Image $image)
+    public function destroy($id)
     {
         //
     }
